@@ -13,5 +13,5 @@ prog: $(SRC) $(HDR)
 			g++ $(CFLAGS) $(SRC) -o $(EX_NAME)
 
 clean:
-			rm -f *.o
+			rm -f $(EX_NAME)
 
