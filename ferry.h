@@ -31,12 +31,14 @@ class Ferry : public GenThread
 		void 				Execute();
 		void 				LoadFerry();
 		void 				UnloadFerry();
+		pthread_cond_t		vehicle_ready_event;
 		pthread_cond_t		ferry_sync_event;
 	protected:
 		int 				lake_cross_ticks;
 		pthread_mutex_t		ferry_sync_mutex;
-		sem_t 				ferry_queue; /* Cars waiting at L */
-		sem_t				ferry_boarded; /* Cars to be unloaded at D */
+		pthread_mutex_t		vehicle_ready_mutex;
+		sem_t 				ferry_load; /* Cars waiting at L */
+		sem_t				ferry_unload; /* Cars to be unloaded at D */
 };
 
 #endif /* FERRY_H_ */
