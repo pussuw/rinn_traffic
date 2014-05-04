@@ -4,8 +4,10 @@
 
 #include <iostream>
 #include <cstdlib>
-#include "genericthread.h"
 #include <unistd.h>
+
+#include "genericthread.h"
+#include "ferry.h"
 
 /*
 #include "random.hh"
@@ -65,8 +67,14 @@ class MainThread : public GenThread
 	}
 };
 #endif
+#include <stdlib.h>
 int main(void)
 {
+	unsigned int spawn_timer = 100;
+	Ferry ferry;
+	srand(47);
+	setvbuf (stdout, NULL, _IONBF, 1024);
+	ferry.Start();
 #if 0
 	int del = 10;
 	MainThread test;
@@ -86,7 +94,22 @@ int main(void)
 
 	//server loop
 
-	server_loop();
+	//server_loop();
+	while(ferry.IsRunning())
+	{
 
+		    usleep(TICK_DELAY);
+		    //send signal to move
+
+		    spawn_timer--;
+
+		    if( spawn_timer == 0 )
+		    {
+		      //spawn a car, give it a route, all the cool jazz
+		      spawn_timer = 100;
+		      ferry.UseFerry((rand() % 1000));
+		    }
+
+	}
 	return 0;
 }

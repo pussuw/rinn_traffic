@@ -4,3 +4,4 @@
 *.mk
 *.dll
 /Debug
+/Release
