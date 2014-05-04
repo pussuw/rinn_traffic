@@ -4,6 +4,8 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <vector>
+#include <list>
 #include "genericthread.h"
 #include <unistd.h>
 
@@ -18,7 +20,7 @@
 const unsigned int TICK_DELAY = 100000;
 const unsigned int LIMIT_CARS_PASSED = 100;
 
-volatile unsigned int G_CARS_PASSED = 0;
+volatile unsigned int g_cars_passed = 0;
 #if 0
 enum M_TYPE { CAR, FERRY };
 enum M_ACTION { CREATE, CROSS_ENTER, CROSS, CROSS_EXIT, FERRY_ARRIVE, FERRY_QUEUE, FERRY_ENTER, FERRY_EXIT, EXIT };
@@ -33,6 +35,10 @@ void server_loop()
   //delay 
   //send timer tick to all child threads which tells them to do their thing
   
+  std::vector<GenThread*> children;
+  
+  //initialize ferry
+  
   //use some rand for this stuff later, for now a static value
   unsigned int spawn_timer = 5;
   do 
@@ -44,12 +50,17 @@ void server_loop()
     
     if( spawn_timer == 0 )
     {
-      //spawn a car, give it a route, all the cool jazz
+      //spawn a car, give it a route, add it to children
       spawn_timer = 5;
     }
     
+    for( unsigned int i = 0; i < children.size(); ++i )
+    {
+      children.at(i)->Execute();
+    }
+    
     std::cout << "herpderp" << std::endl;
-  } while( G_CARS_PASSED < LIMIT_CARS_PASSED );
+  } while( g_cars_passed < LIMIT_CARS_PASSED );
 }
 
 #if 0
