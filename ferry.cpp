@@ -45,7 +45,6 @@ void Ferry::UseFerry(int customer_id)
 	sem_wait(&this->ferry_load);
 	/* 2: Our turn, board ferry */
 	printf("Auto %d, nousee lautalle\n", customer_id);
-	pthread_cond_signal(&this->vehicle_ready_event);
 	/* 3: Wait for ferry to arrive at other end and unload */
 	sem_wait(&this->ferry_unload);
 	/* 4: Inform ferry that we have unloaded */
@@ -97,6 +96,51 @@ void Ferry::Execute()
 void Ferry::LoadFerry()
 {
 	/* Get every car on board */
+	int vehicles_in = 0,
+		vehicles_boarding = -1;
+	/* At this point semaphore value is <= 0 */
+	while(sem_trywait(&this->ferry_load) < 0)
+	{
+		vehicles_boarding++;
+		/* If semaphore was 0, release it, and try again
+		 * Doesn't matter if someone else snatches semaphore,
+		 * simply keep trying until ownership is granted */
+		sem_post(&this->ferry_load);
+	}
+	/* Leave semaphore locked ("owned" by ferry) => no more cars can get in */
+	do
+	{
+		/* Wait until all vehicles have boarded the vessel */
+		sem_getvalue(&this->ferry_unload, &vehicles_in);
+		usleep(100);
+	} while(vehicles_boarding != abs(vehicles_in));
+}
+
+void Ferry::UnloadFerry()
+{
+	/* Get every car off board*/
+	int vehicles_waiting = 0;
+	/* See how many cars are on board */
+	sem_getvalue(&this->ferry_unload, &vehicles_waiting);
+	if(vehicles_waiting == 0)
+		return;
+	/* At this point semaphore value is < 0 */
+	vehicles_waiting = abs(vehicles_waiting);
+	while(vehicles_waiting--)
+	{
+		/* Let everyone out */
+		sem_post(&this->ferry_unload);
+		/* Wait for current car to get off board */
+		pthread_cond_wait(&this->vehicle_ready_event,
+						  &this->vehicle_ready_mutex);
+	}
+}
+
+
+#if 0
+void Ferry::LoadFerry()
+{
+	/* Get every car on board */
 	int vehicles_waiting = 0;
 	/* See if anyone is waiting to board (at this point) */
 	sem_getvalue(&this->ferry_load, &vehicles_waiting);
@@ -114,27 +158,7 @@ void Ferry::LoadFerry()
 						  &this->vehicle_ready_mutex);
 	}
 }
-
-void Ferry::UnloadFerry()
-{
-	/* Get every car off board*/
-	int vehicles_waiting = 0;
-	/* See if anyone is waiting to board (at this point) */
-	sem_getvalue(&this->ferry_unload, &vehicles_waiting);
-	/* If a vehicle came after the query, too bad */
-	if(vehicles_waiting == 0)
-		return;
-	/* At this point semaphore value is < 0 */
-	vehicles_waiting = abs(vehicles_waiting);
-	while(vehicles_waiting--)
-	{
-		/* Let everyone in */
-		sem_post(&this->ferry_unload);
-		/* Wait for current car to get offboard */
-		pthread_cond_wait(&this->vehicle_ready_event,
-						  &this->vehicle_ready_mutex);
-	}
-}
+#endif
 
 #if 0
 printf("Autoja odottamassa %d\n", vehicles_waiting);
