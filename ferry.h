@@ -31,11 +31,13 @@ class Ferry : public GenThread
 							Ferry();
 		virtual 			~Ferry();
 		void 				UseFerry(int);
+		GenSignal *			GetFerryHeartBeat();
 	private:
 		void 				Execute();
 		void 				LoadFerry();
 		void 				UnloadFerry();
 		GenSignal			vehicle_ready;
+		GenSignal			ferry_hearbeat;
 	protected:
 		static const int	lake_cross_ticks = LAKE_CROSS_TICKS;
 		sem_t 				ferry_load; /* Cars waiting at L */
