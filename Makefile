@@ -1,7 +1,7 @@
 .PHONY: clean
 
-SRC=main.cpp genericthread.cpp 
-HDR=genericthread.h
+SRC=main.cpp genericthread.cpp genericsignal.cpp ferry.cpp
+HDR=genericthread.h genericsignal.h ferry.h
 CC= g++
 DEBUG = -g
 CFLAGS = -pthread -Wall -Wextra -pedantic -Werror

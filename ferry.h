@@ -19,7 +19,7 @@ typedef enum
 	FERRY_DIR_L,
 	FERRY_DIR_D,
 	FERRY_LOADING,
-	FERRY_UNLOADING,
+	FERRY_UNLOADING
 }EFerryState;
 
 /* How many ticks to cross the lake */

@@ -6,9 +6,12 @@
 #include <cstdlib>
 #include <vector>
 #include <list>
-#include "genericthread.h"
 #include <unistd.h>
+#include <pthread.h>
+#include "genericthread.h"
+#include "genericsignal.h"
 #include "ferry.h"
+
 
 /*
 #include "random.hh"
@@ -35,18 +38,19 @@ void server_loop()
   //on every cycle
   //delay 
   //send timer tick to all child threads which tells them to do their thing
-  
+#if 0
   std::vector<GenThread*> children;
-  
+#endif
   //initialize ferry
-  
+  Ferry ferry1;
+  ferry1.Start();
   //use some rand for this stuff later, for now a static value
   unsigned int spawn_timer = 5;
   do 
   {
     usleep(TICK_DELAY);
     //send signal to move
-    
+    ferry1.GetFerryHeartBeat();
     spawn_timer--;
     
     if( spawn_timer == 0 )
@@ -54,13 +58,12 @@ void server_loop()
       //spawn a car, give it a route, add it to children
       spawn_timer = 5;
     }
-    
+#if 0
     for( unsigned int i = 0; i < children.size(); ++i )
     {
-      children.at(i)->Execute();
+      //children.at(i)->Execute();
     }
-    
-    std::cout << "herpderp" << std::endl;
+#endif
   } while( g_cars_passed < LIMIT_CARS_PASSED );
 }
 
@@ -77,14 +80,8 @@ class MainThread : public GenThread
 	}
 };
 #endif
-#include <stdlib.h>
 int main(void)
 {
-	unsigned int spawn_timer = 100;
-	Ferry ferry;
-	srand(47);
-	setvbuf (stdout, NULL, _IONBF, 1024);
-	ferry.Start();
 #if 0
 	int del = 10;
 	MainThread test;
@@ -104,22 +101,7 @@ int main(void)
 
 	//server loop
 
-	//server_loop();
-	while(ferry.IsRunning())
-	{
+	server_loop();
 
-		    usleep(TICK_DELAY);
-		    //send signal to move
-
-		    spawn_timer--;
-
-		    if( spawn_timer == 0 )
-		    {
-		      //spawn a car, give it a route, all the cool jazz
-		      spawn_timer = 100;
-		      ferry.UseFerry((rand() % 1000));
-		    }
-
-	}
 	return 0;
 }
