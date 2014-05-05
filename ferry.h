@@ -8,9 +8,11 @@
 #ifndef FERRY_H_
 #define FERRY_H_
 
+#include "genericsignal.h"
 #include "genericthread.h"
 #include <semaphore.h>
 #include <pthread.h>
+
 /** \todo Ferry state (direction) */
 typedef enum
 {
@@ -20,23 +22,22 @@ typedef enum
 	FERRY_UNLOADING,
 }EFerryState;
 
+/* How many ticks to cross the lake */
+#define LAKE_CROSS_TICKS 10
+
 class Ferry : public GenThread
 {
 	public:
 							Ferry();
 		virtual 			~Ferry();
 		void 				UseFerry(int);
-		pthread_cond_t *	GetFerryEvent(void);
 	private:
 		void 				Execute();
 		void 				LoadFerry();
 		void 				UnloadFerry();
-		pthread_cond_t		vehicle_ready_event;
-		pthread_cond_t		ferry_sync_event;
+		GenSignal			vehicle_ready;
 	protected:
-		int 				lake_cross_ticks;
-		pthread_mutex_t		ferry_sync_mutex;
-		pthread_mutex_t		vehicle_ready_mutex;
+		static const int	lake_cross_ticks = LAKE_CROSS_TICKS;
 		sem_t 				ferry_load; /* Cars waiting at L */
 		sem_t				ferry_unload; /* Cars to be unloaded at D */
 };

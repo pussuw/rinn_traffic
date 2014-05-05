@@ -11,18 +11,10 @@
 #include <unistd.h>
 #include "ferry.h"
 
-/* How many ticks to cross the lake */
-#define LAKE_CROSS_TICKS 10
-
 Ferry::Ferry()
 {
 	sem_init(&this->ferry_load, 0, 0);
 	sem_init(&this->ferry_unload, 0, 0);
-	pthread_mutex_init(&this->ferry_sync_mutex, NULL);
-	pthread_mutex_init(&this->vehicle_ready_mutex, NULL);
-	pthread_cond_init(&this->ferry_sync_event, NULL);
-	pthread_cond_init(&this->vehicle_ready_event, NULL);
-	lake_cross_ticks = LAKE_CROSS_TICKS;
 	/** \todo Ferry sync event and register to observer */
 }
 
@@ -30,10 +22,6 @@ Ferry::~Ferry()
 {
 	sem_destroy(&this->ferry_load);
 	sem_destroy(&this->ferry_unload);
-	pthread_mutex_destroy(&this->ferry_sync_mutex);
-	pthread_mutex_destroy(&this->vehicle_ready_mutex);
-	pthread_cond_destroy(&this->ferry_sync_event);
-	pthread_cond_destroy(&this->vehicle_ready_event);
 }
 
 /** \todo printit */
@@ -48,23 +36,16 @@ void Ferry::UseFerry(int customer_id)
 	sem_wait(&this->ferry_unload);
 	/* 4: Inform ferry that we have unloaded */
 	printf("Auto %d, poistuu lautalta\n", customer_id);
-	/** \todo is mutex lock/unlock necessary here, I think not
-	 * when there is no shared data actually being signaled to be ready
-	 * for processing, only signal for other thread to advance */
-	pthread_cond_signal(&this->vehicle_ready_event);
+	vehicle_ready.Signal();
 	/* 5: Return from this function -> ferry travel complete !*/
 }
 
-pthread_cond_t *Ferry::GetFerryEvent(void)
-{
-	return &(this->ferry_sync_event);
-}
-
+/** \todo utilize synch method and actual state machine */
 void Ferry::Execute()
 {
 	int jepalow = LAKE_CROSS_TICKS;
 	int state = 0;
-	while(1)
+	while(!Terminated)
 	{
 		usleep(100000);
 		jepalow--;
@@ -114,7 +95,8 @@ void Ferry::LoadFerry()
 	{
 		/* Wait until all vehicles have boarded the vessel */
 		sem_getvalue(&this->ferry_unload, &vehicles_in);
-		usleep(100);
+		/* Give cars some time to inform about their status */
+		usleep(10);
 	} while(vehicles_boarding != abs(vehicles_in));
 }
 
@@ -133,7 +115,6 @@ void Ferry::UnloadFerry()
 		/* Let one car out */
 		sem_post(&this->ferry_unload);
 		/* Wait for current car to get off board */
-		pthread_cond_wait(&this->vehicle_ready_event,
-						  &this->vehicle_ready_mutex);
+		vehicle_ready.WaitSignal();
 	}
 }
