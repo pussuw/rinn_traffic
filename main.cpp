@@ -8,6 +8,7 @@
 #include <vector>
 #include <algorithm>
 #include <list>
+#include <time.h>
 #include <unistd.h>
 #include <pthread.h>
 #include "genericthread.h"
