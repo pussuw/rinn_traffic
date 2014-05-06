@@ -59,14 +59,15 @@ void server_loop()
     usleep(TICK_DELAY);
 	//generate a random number for car spawn
 	pthread_mutex_lock(&randomizer);
-	random = rand() % (2000000);
+	random = rand() % (RAND_MAX);
 	pthread_mutex_unlock(&randomizer);
     //send signal to move
     ferry1.GetFerryHeartBeat();
     
-    if( random % 7 == 0 )
+    if( random % 15 == 0 )
     {
-      //spawn a car, give it a route, add it to children
+	printf("Auto luotu NN, reitti X->Y\n");
+    //spawn a car, give it a route, add it to children
     }
 #if 0
     for( unsigned int i = 0; i < children.size(); ++i )
