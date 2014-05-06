@@ -4,13 +4,16 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <stdlib.h>
 #include <vector>
+#include <algorithm>
 #include <list>
 #include <unistd.h>
 #include <pthread.h>
 #include "genericthread.h"
 #include "genericsignal.h"
 #include "ferry.h"
+
 
 
 /*
@@ -24,6 +27,10 @@
 const unsigned int TICK_DELAY = 100000;
 const unsigned int LIMIT_CARS_PASSED = 100;
 
+//pthread initialization
+pthread_mutex_t randomizer = PTHREAD_MUTEX_INITIALIZER;
+
+unsigned int random = 0;
 volatile unsigned int g_cars_passed = 0;
 #if 0
 enum M_TYPE { CAR, FERRY };
@@ -44,19 +51,21 @@ void server_loop()
   //initialize ferry
   Ferry ferry1;
   ferry1.Start();
-  //use some rand for this stuff later, for now a static value
-  unsigned int spawn_timer = 5;
+
+
   do 
   {
     usleep(TICK_DELAY);
+	//generate a random number for car spawn
+	pthread_mutex_lock(&randomizer);
+	random = rand() % (2000000);
+	pthread_mutex_unlock(&randomizer);
     //send signal to move
     ferry1.GetFerryHeartBeat();
-    spawn_timer--;
     
-    if( spawn_timer == 0 )
+    if( random % 7 == 0 )
     {
       //spawn a car, give it a route, add it to children
-      spawn_timer = 5;
     }
 #if 0
     for( unsigned int i = 0; i < children.size(); ++i )
@@ -82,6 +91,8 @@ class MainThread : public GenThread
 #endif
 int main(void)
 {
+//initialize seed for future use
+srand( (unsigned) time(NULL));
 #if 0
 	int del = 10;
 	MainThread test;
