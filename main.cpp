@@ -1,10 +1,11 @@
 /* Rinnakkaisuus 2014
- pussuw, r00pe, xzr
+pussuw, r00pe, xzr
 */
 
 #include <iostream>
 #include <cstdlib>
 #include <stdlib.h>
+#include <stdio.h>
 #include <vector>
 #include <algorithm>
 #include <list>
@@ -31,7 +32,7 @@ const unsigned int LIMIT_CARS_PASSED = 100;
 //pthread initialization
 pthread_mutex_t randomizer = PTHREAD_MUTEX_INITIALIZER;
 
-unsigned int random = 0;
+unsigned int g_random = 1;
 volatile unsigned int g_cars_passed = 0;
 #if 0
 enum M_TYPE { CAR, FERRY };
@@ -57,17 +58,18 @@ void server_loop()
   do 
   {
     usleep(TICK_DELAY);
-	//generate a random number for car spawn
-	pthread_mutex_lock(&randomizer);
-	random = rand() % (RAND_MAX);
-	pthread_mutex_unlock(&randomizer);
+    //generate a random number for car spawn
+#if 0
+    pthread_mutex_lock(&randomizer);
+    g_random = rand() % (RAND_MAX);
+    pthread_mutex_unlock(&randomizer);
+#endif
     //send signal to move
-    ferry1.GetFerryHeartBeat();
-    
-    if( random % 15 == 0 )
+    ferry1.GetFerryHeartBeat()->Signal();
+    if( g_random % 15 == 0 )
     {
-	printf("Auto luotu NN, reitti X->Y\n");
-    //spawn a car, give it a route, add it to children
+      printf("Auto luotu NN, reitti X->Y\n");
+      //spawn a car, give it a route, add it to children
     }
 #if 0
     for( unsigned int i = 0; i < children.size(); ++i )
@@ -81,40 +83,40 @@ void server_loop()
 #if 0
 class MainThread : public GenThread
 {
-	void Execute()
-	{
-		while(!Terminated)
-		{
-			printf("Hello\n");
-			sleep(1);
-		}
-	}
+  void Execute()
+  {
+    while(!Terminated)
+    {
+      printf("Hello\n");
+      sleep(1);
+    }
+  }
 };
 #endif
 int main(void)
 {
-//initialize seed for future use
-srand( (unsigned) time(NULL));
+  //initialize seed for future use
+  srand( (unsigned) time(NULL));
 #if 0
-	int del = 10;
-	MainThread test;
-	test.Start();
-	while(del--)
-	{
-		sleep(1);
-	}
-	del = 10;
-	while(del--)
-	{
-		sleep(1);
-	}
-	test.Terminate(true);
+  int del = 10;
+  MainThread test;
+  test.Start();
+  while(del--)
+  {
+    sleep(1);
+  }
+  del = 10;
+  while(del--)
+  {
+    sleep(1);
+  }
+  test.Terminate(true);
 #endif
-	//initialize routes
+  //initialize routes
 
-	//server loop
+  //server loop
 
-	server_loop();
+  server_loop();
 
-	return 0;
+  return 0;
 }

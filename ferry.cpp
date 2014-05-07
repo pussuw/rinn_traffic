@@ -52,7 +52,7 @@ void Ferry::Execute()
 	int state = 0;
 	while(!Terminated)
 	{
-		usleep(100000);
+		ferry_hearbeat.WaitSignal();
 		jepalow--;
 		if(jepalow == 0)
 		{
