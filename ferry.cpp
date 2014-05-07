@@ -40,11 +40,6 @@ void Ferry::UseFerry(int customer_id)
 	/* 5: Return from this function -> ferry travel complete !*/
 }
 
-GenSignal *	Ferry::GetFerryHeartBeat()
-{
-	return &this->ferry_hearbeat;
-}
-
 /** \todo utilize synch method and actual state machine */
 void Ferry::Execute()
 {

@@ -9,7 +9,7 @@
 #define FERRY_H_
 
 #include "genericsignal.h"
-#include "genericthread.h"
+#include "syncthread.h"
 #include <semaphore.h>
 #include <pthread.h>
 
@@ -25,19 +25,17 @@ typedef enum
 /* How many ticks to cross the lake */
 #define LAKE_CROSS_TICKS 10
 
-class Ferry : public GenThread
+class Ferry : public SyncThread
 {
 	public:
 							Ferry();
 		virtual 			~Ferry();
 		void 				UseFerry(int);
-		GenSignal *			GetFerryHeartBeat();
 	private:
 		void 				Execute();
 		void 				LoadFerry();
 		void 				UnloadFerry();
 		GenSignal			vehicle_ready;
-		GenSignal			ferry_hearbeat;
 	protected:
 		static const int	lake_cross_ticks = LAKE_CROSS_TICKS;
 		sem_t 				ferry_load; /* Cars waiting at L */
