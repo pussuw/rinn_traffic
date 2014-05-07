@@ -47,7 +47,7 @@ void Ferry::Execute()
 	int state = 0;
 	while(!Terminated)
 	{
-		ferry_hearbeat.WaitSignal();
+		heartbeat.WaitSignal();
 		jepalow--;
 		if(jepalow == 0)
 		{
