@@ -6,8 +6,8 @@
 Randomizer::Randomizer()
 {
 	//initialize seed for future use
-    srand( (unsigned) time(NULL));
-	unsigned int random = 0;
+    seed = time(NULL);
+	unsigned int g_random = 0;
 	pthread_mutex_init(&this->randomlock, NULL);
 }
 
@@ -20,6 +20,7 @@ void Randomizer::Randomize()
 {
 	pthread_mutex_lock(&this->randomlock);
 	//generate a random number
-	g_random = rand_r() % (RAND_MAX);
+	g_random = rand_r(seed) % (RAND_MAX);
 	pthread_mutex_unlock(&this->randomlock);
+	return g_random;
 }
