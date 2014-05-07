@@ -29,10 +29,6 @@ pussuw, r00pe, xzr
 const unsigned int TICK_DELAY = 100000;
 const unsigned int LIMIT_CARS_PASSED = 100;
 
-//pthread initialization
-pthread_mutex_t randomizer = PTHREAD_MUTEX_INITIALIZER;
-
-unsigned int g_random = 1;
 volatile unsigned int g_cars_passed = 0;
 #if 0
 enum M_TYPE { CAR, FERRY };
@@ -58,19 +54,15 @@ void server_loop()
   do 
   {
     usleep(TICK_DELAY);
-    //generate a random number for car spawn
-#if 0
-    pthread_mutex_lock(&randomizer);
-    g_random = rand() % (RAND_MAX);
-    pthread_mutex_unlock(&randomizer);
-#endif
     //send signal to move
     ferry1.GetFerryHeartBeat()->Signal();
-    if( g_random % 15 == 0 )
+	// call for random generated number here
+/*    if( g_random % 15 == 0 )
     {
       printf("Auto luotu NN, reitti X->Y\n");
       //spawn a car, give it a route, add it to children
     }
+*/
 #if 0
     for( unsigned int i = 0; i < children.size(); ++i )
     {
@@ -95,8 +87,6 @@ class MainThread : public GenThread
 #endif
 int main(void)
 {
-  //initialize seed for future use
-  srand( (unsigned) time(NULL));
 #if 0
   int del = 10;
   MainThread test;

@@ -1,5 +1,5 @@
 /* v1 :D */
-
+#include <stdlib.h>
 #include "randomizer.h"
 #include <time.h>
 
@@ -7,7 +7,6 @@ Randomizer::Randomizer()
 {
 	//initialize seed for future use
     seed = time(NULL);
-	unsigned int g_random = 0;
 	pthread_mutex_init(&this->randomlock, NULL);
 }
 
@@ -16,7 +15,7 @@ Randomizer::~Randomizer()
 	pthread_mutex_destroy(&this->randomlock);
 }
 
-void Randomizer::Randomize()
+int Randomizer::Randomize()
 {
 	pthread_mutex_lock(&this->randomlock);
 	//generate a random number
