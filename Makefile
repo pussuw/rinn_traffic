@@ -1,7 +1,8 @@
 .PHONY: clean
 
-SRC=main.cpp genericthread.cpp genericsignal.cpp syncthread.cpp ferry.cpp routemanager.cpp randomizer.cpp
-HDR=genericthread.h genericsignal.h syncthread.h ferry.h routemanager.h randomizer.h
+SRC=main.cpp genericthread.cpp genericsignal.cpp syncthread.cpp ferry.cpp routemanager.cpp car.cpp trafficlight.cpp randomizer.cpp
+HDR=genericthread.h genericsignal.h syncthread.h ferry.h routemanager.h car.h trafficlight.h randomizer.h
+
 CC= g++
 DEBUG = -g
 CFLAGS = -pthread -Wall -Wextra -pedantic -Werror

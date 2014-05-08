@@ -7,6 +7,7 @@
 
 #include "routemanager.h"
 
+#include <stdio.h>
 #include <vector>
 #include <pthread.h>
 
@@ -17,8 +18,6 @@
 RouteManager::RouteManager()
 {
 	pthread_mutex_init(&this->signal_guard, NULL);
-  
-  //init routes
   ConstructRoutes();
 }
 
@@ -27,11 +26,12 @@ RouteManager::~RouteManager()
 	pthread_mutex_destroy(&this->signal_guard);
 }
 
-void RouteManager::GetRoute(std::vector<ERouteBlock>& route, ERoute RouteID)
+void RouteManager::GetRoute(std::vector<ERouteBlock>* route)
 {
   pthread_mutex_lock(&this->signal_guard);
+  Randomizer rando;
   
-  route = routes.at(RouteID);
+  *route = routes.at(rando.Randomize((int)ROUTE_B_D));
   
   pthread_mutex_unlock(&this->signal_guard);
 }
@@ -97,7 +97,7 @@ void RouteManager::ConstructRoutes()
 #endif
       default:
       {
-        return;
+        break;
       }
     }
   }

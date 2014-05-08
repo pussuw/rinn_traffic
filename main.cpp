@@ -16,7 +16,10 @@ pussuw, r00pe, xzr
 #include "genericthread.h"
 #include "syncthread.h"
 #include "genericsignal.h"
+#include "trafficlight.h"
 #include "ferry.h"
+#include "car.h"
+
 
 //delay between every tick in milliseconds
 const unsigned int TICK_DELAY = 100000;
@@ -42,13 +45,18 @@ void server_loop()
   //on every cycle
   //delay 
   //send timer tick to all child threads which tells them to do their thing
-#if 0
-  std::vector<GenThread*> children;
-#endif
+
+  std::vector<Car*> children;
+
   //initialize ferry
   Ferry ferry1;
   ferry1.Start();
-
+  TrafficLight traffic_light;
+  
+  unsigned int test1 = 5;
+  unsigned int testid = 0;
+  
+  Car* tmp;
   do 
   {
     usleep(TICK_DELAY);
@@ -61,12 +69,30 @@ void server_loop()
       //spawn a car, give it a route, add it to children
     }
 */
-#if 0
-    for( unsigned int i = 0; i < children.size(); ++i )
+    test1--;
+    if( test1 == 0 )
     {
-      //children.at(i)->Execute();
+      printf("first car coming up\n");
+      tmp = new Car(testid, &ferry1, &traffic_light);
+      tmp->Start();
+      children.push_back(tmp);
+      tmp = 0;
+      test1 = 5;
+      ++testid;
     }
-#endif
+    for( std::vector<Car*>::iterator it = children.begin(); it != children.end(); ++it )
+    {
+      if( (*it)->IsRunning() )
+      {
+        (*it)->GetHeartBeat()->Signal();
+      }
+      else
+      {
+        printf("deleting stuff\n");
+        delete *it;
+        it = children.erase(it);
+      }
+    }
   } while( g_cars_passed < LIMIT_CARS_PASSED );
 }
 
