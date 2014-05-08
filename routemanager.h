@@ -4,6 +4,9 @@
  *  Created on: 7.5.2014
  *      Author: Atte
  */
+#ifndef ROUTEMANAGER_H_
+#define ROUTEMANAGER_H_
+
 #include "genericthread.h"
 #include "genericsignal.h"
 #include <vector>
@@ -49,3 +52,5 @@ class RouteManager
     std::vector<std::vector<ERouteBlock> > routes;
     pthread_mutex_t	signal_guard;
 };
+
+#endif
