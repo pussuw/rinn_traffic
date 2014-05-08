@@ -13,6 +13,7 @@ pussuw, r00pe, xzr
 #include <unistd.h>
 #include <pthread.h>
 #include "genericthread.h"
+#include "syncthread.h"
 #include "genericsignal.h"
 #include "ferry.h"
 

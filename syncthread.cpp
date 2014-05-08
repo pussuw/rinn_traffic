@@ -9,5 +9,5 @@
 
 GenSignal *	SyncThread::GetHeartBeat()
 {
-	return &this->hearbeat;
+	return &this->heartbeat;
 }
