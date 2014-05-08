@@ -6,6 +6,7 @@ pussuw, r00pe, xzr
 #include <cstdlib>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string>
 #include <vector>
 #include <algorithm>
 #include <list>
@@ -21,6 +22,17 @@ pussuw, r00pe, xzr
 const unsigned int TICK_DELAY = 100000;
 const unsigned int LIMIT_CARS_PASSED = 100;
 volatile unsigned int g_cars_passed = 0;
+
+//pthread initialization
+pthread_mutex_t printerlock = PTHREAD_MUTEX_INITIALIZER;
+
+void printer(std::string printstr)
+{
+pthread_mutex_lock(&printerlock);
+fprintf(stderr, printstr.c_str());
+pthread_mutex_lock(&printerlock);
+
+}
 
 void server_loop()
 {
@@ -60,7 +72,7 @@ void server_loop()
 
 int main(void)
 {
-
+  std::string printstr;
   //initialize routes
 
   //server loop
@@ -69,3 +81,4 @@ int main(void)
 
   return 0;
 }
+
