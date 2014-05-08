@@ -16,10 +16,8 @@
 /** \todo Ferry state (direction) */
 typedef enum
 {
-	FERRY_DIR_L,
-	FERRY_DIR_D,
-	FERRY_LOADING,
-	FERRY_UNLOADING
+	FERRY_L,
+	FERRY_D,
 }EFerryState;
 
 /* How many ticks to cross the lake */

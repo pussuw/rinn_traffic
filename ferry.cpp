@@ -43,33 +43,29 @@ void Ferry::UseFerry(int customer_id)
 /** \todo utilize synch method and actual state machine */
 void Ferry::Execute()
 {
-	int jepalow = LAKE_CROSS_TICKS;
-	int state = 0;
+	int ticks = lake_cross_ticks;
+	EFerryState state = FERRY_L;
 	while(!Terminated)
 	{
 		heartbeat.WaitSignal();
-		jepalow--;
-		if(jepalow == 0)
+		ticks--;
+		if(ticks == 0)
 		{
-			jepalow = LAKE_CROSS_TICKS;
+			ticks = lake_cross_ticks;
 			switch(state)
 			{
-			case 0:
+			default:
+			case FERRY_L:
 				printf("Lautta saapuu L\n");
+				UnloadFerry();
 				LoadFerry();
-				state = 1;
+				state = FERRY_D;
 				break;
-			case 1:
-				state = 2;
-				break;
-			case 2:
+			case FERRY_D:
 				printf("Lautta saapuu D\n");
 				UnloadFerry();
-				state = 3;
-				break;
-			case 3:
-			default:
-				state = 0;
+				LoadFerry();
+				state = FERRY_L;
 				break;
 			}
 		}
