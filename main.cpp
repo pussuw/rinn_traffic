@@ -25,6 +25,7 @@ pussuw, r00pe, xzr
 const unsigned int TICK_DELAY = 100000;
 const unsigned int LIMIT_CARS_PASSED = 100;
 volatile unsigned int g_cars_passed = 0;
+volatile unsigned int g_cars_created = 0;
 
 //pthread initialization
 pthread_mutex_t printerlock = PTHREAD_MUTEX_INITIALIZER;
@@ -72,24 +73,30 @@ void server_loop()
     test1--;
     if( test1 == 0 )
     {
-      tmp = new Car(car_id, &ferry1, &traffic_light);
-      tmp->Start();
-      children.push_back(tmp);
-      tmp = 0;
-      test1 = 5;
-      ++car_id;
+      if(g_cars_created < LIMIT_CARS_PASSED)
+      {
+          tmp = new Car(car_id, &ferry1, &traffic_light);
+          tmp->Start();
+          children.push_back(tmp);
+          tmp = 0;
+          test1 = 5;
+          ++car_id;
+          g_cars_created++;
+      }
     }
-    for( std::vector<Car*>::iterator it = children.begin(); it != children.end(); ++it )
+    for( std::vector<Car*>::iterator it = children.begin(); it != children.end(); )
     {
       if( (*it)->IsRunning() )
       {
         (*it)->GetHeartBeat()->Signal();
+        it++;
       }
       else
       {
         printf("deleting stuff\n");
         delete *it;
         it = children.erase(it);
+        g_cars_passed++;
       }
     }
   } while( g_cars_passed < LIMIT_CARS_PASSED );
