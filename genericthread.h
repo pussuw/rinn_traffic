@@ -9,7 +9,7 @@ class GenThread
 		GenThread(); //create only
 		virtual 		~GenThread();
 		void 			Start(void);
-		bool 			Terminate(bool Forced);
+		bool 			Terminate(void);
 		bool 			IsRunning(void);
 		int 			ExitCode;
 	private:
@@ -19,6 +19,7 @@ class GenThread
 		static void 	*_threadProc(void*);
 		GenThread 		*_threadObj;
 		pthread_t    	threadID;
+		pthread_mutex_t	thread_mutex;
  };
 
 #endif

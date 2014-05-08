@@ -5,13 +5,15 @@
 GenThread::GenThread()
 {
 	threadID = 0;
+	pthread_mutex_init(&this->thread_mutex, NULL);
 }
 
 GenThread::~GenThread()
 {
-	Terminate(true);
+	Terminate();
 	usleep(200000);
 	threadID = 0;
+	pthread_mutex_destroy(&this->thread_mutex);
 }
 
 void GenThread::Start(void)
@@ -24,25 +26,20 @@ void GenThread::Start(void)
 	pthread_create(&threadID, NULL, _threadProc, (void*)_threadObj);
 }
 
-bool GenThread::Terminate(bool Forced)
+bool GenThread::Terminate(void)
 {
+	bool ret = false;
 	if(IsRunning() == false)
 		return true;
-
+	pthread_mutex_lock(&this->thread_mutex);
 	Terminated = true;
 	if(pthread_join(threadID, NULL) == 0)
 	{
 		threadID = 0;
-		return true;
+		ret = true;
 	}
-
-	if(Forced == true && threadID != 0)
-	{
-		if(pthread_cancel(threadID) == 0)
-			return true;
-	}
-
-	return false;
+	pthread_mutex_unlock(&this->thread_mutex);
+	return ret;
 }
 
 void *GenThread::_threadProc(void * ptr)
@@ -53,5 +50,9 @@ void *GenThread::_threadProc(void * ptr)
 
 bool GenThread::IsRunning(void)
 {
-	return ((threadID != 0) && (Terminated == false));
+	bool running = false;
+	pthread_mutex_lock(&this->thread_mutex);
+	running = ((threadID != 0) && (Terminated == false));
+	pthread_mutex_unlock(&this->thread_mutex);
+	return running;
 }
