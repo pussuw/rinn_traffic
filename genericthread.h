@@ -9,7 +9,7 @@ class GenThread
 		GenThread(); //create only
 		virtual 		~GenThread();
 		void 			Start(void);
-		bool 			Terminate(void);
+		virtual bool    Terminate(void);
 		bool 			IsRunning(void);
 		int 			ExitCode;
 	private:

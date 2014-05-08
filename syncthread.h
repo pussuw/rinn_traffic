@@ -14,6 +14,8 @@
 class SyncThread : public GenThread
 {
 	public:
+		virtual				~SyncThread();
+		bool    			Terminate(void);
 		GenSignal *			GetHeartBeat();
 	protected:
 		GenSignal			heartbeat;
