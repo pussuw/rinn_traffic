@@ -17,7 +17,7 @@
 typedef enum
 {
 	FERRY_L,
-	FERRY_D,
+	FERRY_D
 }EFerryState;
 
 /* How many ticks to cross the lake */
