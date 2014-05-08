@@ -7,15 +7,11 @@ class Randomizer
 	public:
 			Randomizer();
 			virtual			~Randomizer();
-			int				Randomize();
-	
+			int				Randomize(int);
 	private:
 			int				seed;
-			int				g_random;
 	protected:
 			pthread_mutex_t randomlock;
-
-			
 };
 
 #endif
