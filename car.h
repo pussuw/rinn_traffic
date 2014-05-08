@@ -15,7 +15,7 @@
 class Car : public SyncThread
 {
 	public:
-                Car(unsigned int id, Ferry::Ferry* ferry_h, TrafficLight::TrafficLight* traffic_light_h);
+                Car(unsigned int id, Ferry* ferry_h, TrafficLight* traffic_light_h);
 		virtual 	  ~Car();
 	private:
 		void 				Execute();
@@ -23,8 +23,8 @@ class Car : public SyncThread
 		static const unsigned int	TICKS_PER_BLOCK = 2;
     
     unsigned int car_id;
-    Ferry::Ferry* ferry;
-    TrafficLight::TrafficLight* traffic_light;
+    Ferry* ferry;
+    TrafficLight* traffic_light;
     
     unsigned int pos_route;
     unsigned int pos_block;

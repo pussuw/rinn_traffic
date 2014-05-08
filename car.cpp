@@ -9,7 +9,7 @@
 #include <string>
 #include <stdio.h>
 
-Car::Car(unsigned int id, Ferry::Ferry* ferry_h, TrafficLight::TrafficLight* traffic_light_h)
+Car::Car(unsigned int id, Ferry* ferry_h, TrafficLight* traffic_light_h)
          : car_id(id), ferry(ferry_h), traffic_light(traffic_light_h), route()
 {
   RouteManager router;
