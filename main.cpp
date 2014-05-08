@@ -55,7 +55,7 @@ void server_loop()
   {
     usleep(TICK_DELAY);
     //send signal to move
-    ferry1.GetFerryHeartBeat()->Signal();
+    ferry1.GetHeartBeat()->Signal();
 	// call for random generated number here
 /*    if( g_random % 15 == 0 )
     {
