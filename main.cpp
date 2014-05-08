@@ -17,24 +17,10 @@ pussuw, r00pe, xzr
 #include "genericsignal.h"
 #include "ferry.h"
 
-
-
-/*
-#include "random.hh"
-#include "car.hh"
-#include "ferry.hh"
-#include "trafficlight.hh"
-*/
-
 //delay between every tick in milliseconds
 const unsigned int TICK_DELAY = 100000;
 const unsigned int LIMIT_CARS_PASSED = 100;
-
 volatile unsigned int g_cars_passed = 0;
-#if 0
-enum M_TYPE { CAR, FERRY };
-enum M_ACTION { CREATE, CROSS_ENTER, CROSS, CROSS_EXIT, FERRY_ARRIVE, FERRY_QUEUE, FERRY_ENTER, FERRY_EXIT, EXIT };
-#endif
 
 void server_loop()
 {
@@ -50,7 +36,6 @@ void server_loop()
   //initialize ferry
   Ferry ferry1;
   ferry1.Start();
-
 
   do 
   {
@@ -73,36 +58,9 @@ void server_loop()
   } while( g_cars_passed < LIMIT_CARS_PASSED );
 }
 
-#if 0
-class MainThread : public GenThread
-{
-  void Execute()
-  {
-    while(!Terminated)
-    {
-      printf("Hello\n");
-      sleep(1);
-    }
-  }
-};
-#endif
 int main(void)
 {
-#if 0
-  int del = 10;
-  MainThread test;
-  test.Start();
-  while(del--)
-  {
-    sleep(1);
-  }
-  del = 10;
-  while(del--)
-  {
-    sleep(1);
-  }
-  test.Terminate(true);
-#endif
+
   //initialize routes
 
   //server loop
