@@ -15,12 +15,12 @@ Randomizer::~Randomizer()
 	pthread_mutex_destroy(&this->randomlock);
 }
 
-int Randomizer::Randomize(int range)
+unsigned int Randomizer::Randomize(unsigned int range)
 {
-	int random;
+	unsigned int random;
 	pthread_mutex_lock(&this->randomlock);
 	//generate a random number
-	random = rand_r(&seed) % (range);
+	random = (unsigned int)rand_r(&seed) % (range);
 	pthread_mutex_unlock(&this->randomlock);
 	return random;
 }

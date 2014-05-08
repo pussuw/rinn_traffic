@@ -13,7 +13,7 @@ Car::Car(unsigned int id, Ferry::Ferry* ferry_h, TrafficLight::TrafficLight* tra
          : car_id(id), ferry(ferry_h), traffic_light(traffic_light_h), route()
 {
   RouteManager router;
-  router.GetRoute( &route, (ERoute)0 );
+  router.GetRoute( &route );
   pos_route = 0;
   pos_block = 0;
   
@@ -24,10 +24,12 @@ Car::Car(unsigned int id, Ferry::Ferry* ferry_h, TrafficLight::TrafficLight* tra
     case BLOCK_A:
     {
       printq.append("A");
+      break;
     }
     case BLOCK_B:
     {
       printq.append("B");
+      break;
     }
     default:
       break;
@@ -38,10 +40,12 @@ Car::Car(unsigned int id, Ferry::Ferry* ferry_h, TrafficLight::TrafficLight* tra
     case BLOCK_C:
     {
       printq.append("C");
+      break;
     }
     case BLOCK_D:
     {
       printq.append("D");
+      break;
     }
     default:
       break;
@@ -80,22 +84,26 @@ void Car::Execute()
       //the destroy case
       case BLOCK_C:
       {
-        printf("destroying car %u", car_id);
+        printf("destroying car %u\n", car_id);
         Terminate();
+        break;
       }
       case BLOCK_D:
       {
         //derp
-        printf("destroying car %u", car_id);
+        printf("destroying car %u\n", car_id);
         Terminate();
+        break;
       }
       case BLOCK_TRAFFICL:
       {
         traffic_light->TrafficLightWait(*&this->car_id);
+        break;
       }
       case BLOCK_FERRY:
       {
         ferry->UseFerry(*&this->car_id);
+        break;
       }
       default:
         break;

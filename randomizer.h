@@ -7,9 +7,9 @@ class Randomizer
 	public:
 			Randomizer();
 			virtual			~Randomizer();
-			int				Randomize(int);
+			unsigned int				Randomize(unsigned int);
 	private:
-			int				seed;
+			unsigned int				seed;
 	protected:
 			pthread_mutex_t randomlock;
 };

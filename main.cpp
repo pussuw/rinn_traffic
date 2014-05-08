@@ -54,7 +54,7 @@ void server_loop()
   TrafficLight traffic_light;
   
   unsigned int test1 = 5;
-  unsigned int testid = 0;
+  unsigned int car_id = 0;
   
   Car* tmp;
   do 
@@ -72,13 +72,12 @@ void server_loop()
     test1--;
     if( test1 == 0 )
     {
-      printf("first car coming up\n");
-      tmp = new Car(testid, &ferry1, &traffic_light);
+      tmp = new Car(car_id, &ferry1, &traffic_light);
       tmp->Start();
       children.push_back(tmp);
       tmp = 0;
       test1 = 5;
-      ++testid;
+      ++car_id;
     }
     for( std::vector<Car*>::iterator it = children.begin(); it != children.end(); ++it )
     {

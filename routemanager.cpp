@@ -31,7 +31,7 @@ void RouteManager::GetRoute(std::vector<ERouteBlock>* route)
   pthread_mutex_lock(&this->signal_guard);
   Randomizer rando;
   
-  *route = routes.at(rando.Randomize((int)ROUTE_B_D));
+  *route = routes.at(rando.Randomize((unsigned int)ROUTE_B_D));
   
   pthread_mutex_unlock(&this->signal_guard);
 }

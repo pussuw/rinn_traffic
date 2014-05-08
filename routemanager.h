@@ -46,7 +46,7 @@ class RouteManager
     virtual ~RouteManager();
     
     //fills a vector with routeblocks for a car to use
-    void GetRoute(std::vector<ERouteBlock>* route, ERoute RouteID);
+    void GetRoute(std::vector<ERouteBlock>* route);
   private:
     void ConstructRoutes();
     void AddRoads(std::vector<ERouteBlock>& route, unsigned int amount);
