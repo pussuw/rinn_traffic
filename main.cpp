@@ -106,7 +106,7 @@ int main(void)
   //initialize routes
 
   //server loop
-
+  setvbuf (stdout, NULL, _IONBF, 1024);
   server_loop();
 
   return 0;
