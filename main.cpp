@@ -75,7 +75,6 @@ void server_loop()
       //spawn a car, give it a route, add it to children
     }
 */
-    spawn_delay--;
     if( spawn_delay == 0 )
     {
       if(g_cars_created < LIMIT_CARS_PASSED)
@@ -88,6 +87,10 @@ void server_loop()
           ++car_id;
           g_cars_created++;
       }
+    }
+    else
+    {
+      spawn_delay--;
     }
     for( std::vector<Car*>::iterator it = children.begin(); it != children.end(); )
     {
