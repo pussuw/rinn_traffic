@@ -15,14 +15,14 @@
 
 typedef enum
 {
-	BLOCK_A,
-	BLOCK_B,
+  BLOCK_A,
+  BLOCK_B,
   BLOCK_C,
   BLOCK_D,
   BLOCK_L,
   BLOCK_TRAFFICL,
-	BLOCK_ROAD,
-	BLOCK_FERRY
+  BLOCK_ROAD,
+  BLOCK_FERRY
 }ERouteBlock;
 
 typedef enum
