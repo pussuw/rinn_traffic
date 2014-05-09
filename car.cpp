@@ -7,7 +7,6 @@
 
 #include "car.h"
 #include <string>
-#include <stdio.h>
 
 Car::Car(unsigned int id, Ferry* ferry_h, TrafficLight* traffic_light_h, 
          RouteManager* routemanager_h)
@@ -52,7 +51,7 @@ Car::Car(unsigned int id, Ferry* ferry_h, TrafficLight* traffic_light_h,
     default:
       break;
   }
-  printf("Auto luotu %i, reitti %c->%c\n", car_id, start, end);
+  mycerr("Auto luotu %i, reitti %c->%c\n", car_id, start, end);
 }
 
 Car::~Car()
@@ -86,14 +85,14 @@ void Car::Execute()
       //the destroy case
       case BLOCK_C:
       {
-        printf("Auto %u, poistuu C\n", car_id);
+        mycerr("Auto %u, poistuu C\n", car_id);
         Terminate();
         break;
       }
       case BLOCK_D:
       {
         //derp
-        printf("Auto %u, poistuu D\n", car_id);
+        mycerr("Auto %u, poistuu D\n", car_id);
         Terminate();
         break;
       }

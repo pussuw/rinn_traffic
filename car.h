@@ -11,6 +11,7 @@
 #include "routemanager.h"
 #include "ferry.h"
 #include "trafficlight.h"
+#include "printer.h"
 
 class Car : public SyncThread
 {

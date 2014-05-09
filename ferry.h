@@ -12,6 +12,7 @@
 #include "syncthread.h"
 #include <semaphore.h>
 #include <pthread.h>
+#include "printer.h"
 
 /** \todo Ferry state (direction) */
 typedef enum

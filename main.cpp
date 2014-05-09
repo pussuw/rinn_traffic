@@ -5,7 +5,6 @@ pussuw, r00pe, xzr
 #include <iostream>
 #include <cstdlib>
 #include <stdlib.h>
-#include <stdio.h>
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -30,26 +29,9 @@ const unsigned int MAX_SPAWN_DELAY = 20;
 volatile unsigned int g_cars_passed = 0;
 volatile unsigned int g_cars_created = 0;
 
-//pthread initialization
-pthread_mutex_t printerlock = PTHREAD_MUTEX_INITIALIZER;
-
-void printer(std::string printstr)
-{
-  pthread_mutex_lock(&printerlock);
-  fprintf(stderr, printstr.c_str());
-  pthread_mutex_lock(&printerlock);
-
-}
 
 void server_loop()
 {
-  //if x time has passed, spawn a car, give it a route and send it off
-  //then reset the counter until next car
-  
-  //on every cycle
-  //delay 
-  //send timer tick to all child threads which tells them to do their thing
-
   std::vector<Car*> children;
 
   //initialize ferry
@@ -68,13 +50,7 @@ void server_loop()
     usleep(TICK_DELAY);
     //send signal to move
     ferry1.GetHeartBeat()->Signal();
-	// call for random generated number here
-/*    if( g_random % 15 == 0 )
-    {
-      printf("Auto luotu NN, reitti X->Y\n");
-      //spawn a car, give it a route, add it to children
-    }
-*/
+
     if( spawn_delay == 0 )
     {
       if(g_cars_created < LIMIT_CARS_PASSED)
@@ -111,13 +87,7 @@ void server_loop()
 
 int main(void)
 {
-  std::string printstr;
-  //initialize routes
-
-  //server loop
-  setvbuf (stdout, NULL, _IONBF, 1024);
   server_loop();
-
-  return 0;
+  return true;
 }
 

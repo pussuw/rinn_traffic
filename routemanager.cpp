@@ -7,14 +7,9 @@
 
 #include "routemanager.h"
 
-#include <stdio.h>
 #include <vector>
 #include <pthread.h>
 
-#if 0
-#include "random.h"
-#endif
- 
 RouteManager::RouteManager(Randomizer* randomizer_h): routes(), randomizer(randomizer_h)
 {
   pthread_mutex_init(&this->signal_guard, NULL);

@@ -5,7 +5,6 @@
  *      Author: Ville
  */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
 #include <unistd.h>
@@ -32,14 +31,14 @@ Ferry::~Ferry()
 void Ferry::UseFerry(int customer_id)
 {
     /* 1: Wait for ferry to arrive and load */
-    printf("Auto %d, jonottaa lautalle\n", customer_id);
+    mycerr("Auto %d, jonottaa lautalle\n", customer_id);
     pthread_mutex_lock(&this->ferry_queue_mutex);
     cars_in_queue++;
     pthread_mutex_unlock(&this->ferry_queue_mutex);
     sem_wait(&this->ferry_load);
     vehicle_loaded.Signal();
     /* 2: Our turn, board ferry */
-    printf("Auto %d, nousee lautalle\n", customer_id);
+    mycerr("Auto %d, nousee lautalle\n", customer_id);
     sem_post(&this->ferry_onboard);
     pthread_mutex_lock(&this->ferry_queue_mutex);
     cars_in_queue--;
@@ -47,7 +46,7 @@ void Ferry::UseFerry(int customer_id)
     /* 3: Wait for ferry to arrive at other end and unload */
     sem_wait(&this->ferry_unload);
     /* 4: Inform ferry that we have unloaded */
-    printf("Auto %d, poistuu lautalta\n", customer_id);
+    mycerr("Auto %d, poistuu lautalta\n", customer_id);
     vehicle_unloaded.Signal();
     /* 5: Return from this function -> ferry travel complete !*/
 }
@@ -67,12 +66,12 @@ void Ferry::Execute()
             {
             default:
             case FERRY_L:
-                printf("Lautta saapuu L\n");
+                mycerr("Lautta saapuu L\n");
                 LoadFerry();
 	        state = FERRY_D;
 	        break;
 	    case FERRY_D:
-	        printf("Lautta saapuu D\n");
+	        mycerr("Lautta saapuu D\n");
 	        UnloadFerry();
 	        state = FERRY_L;
 	        break;

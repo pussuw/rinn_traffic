@@ -9,7 +9,7 @@
 #define TRAFFICLIGHT_H_
 
 #include <pthread.h>
-
+#include "printer.h"
 /* How long it takes to get over crossing */
 #define TRAFFIC_LIGHT_CROSS_TIME	1000
 
