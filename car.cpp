@@ -84,14 +84,14 @@ void Car::Execute()
       //the destroy case
       case BLOCK_C:
       {
-        printf("destroying car %u\n", car_id);
+        printf("Auto %u, poistuu C\n", car_id);
         Terminate();
         break;
       }
       case BLOCK_D:
       {
         //derp
-        printf("destroying car %u\n", car_id);
+        printf("Auto %u, poistuu D\n", car_id);
         Terminate();
         break;
       }

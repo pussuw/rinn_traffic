@@ -93,7 +93,6 @@ void server_loop()
       }
       else
       {
-        printf("deleting stuff\n");
         delete *it;
         it = children.erase(it);
         g_cars_passed++;
