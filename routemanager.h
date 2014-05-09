@@ -31,12 +31,6 @@ typedef enum
   ROUTE_A_D,
   ROUTE_B_C,
   ROUTE_B_D
-#if 0
-  R_ROUTE_A_C,
-  R_ROUTE_A_B,
-  R_ROUTE_B_C,
-  R_ROUTE_B_D
-#endif
 }ERoute;
 
 class RouteManager

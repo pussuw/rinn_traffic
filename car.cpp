@@ -19,40 +19,40 @@ Car::Car(unsigned int id, Ferry* ferry_h, TrafficLight* traffic_light_h,
   pos_route = 0;
   pos_block = 0;
   
-  printf("Auto luotu %i reitti ",id);
-  std::string printq;
+  char start;
   switch (route.at(0))
   {
     case BLOCK_A:
     {
-      printq.append("A");
+      start = 'A';
       break;
     }
     case BLOCK_B:
     {
-      printq.append("B");
+      start = 'B';
       break;
     }
     default:
       break;
   }
-  printq.append("->");
+
+  char end;
   switch (route.at(route.size()-1))
   {
     case BLOCK_C:
     {
-      printq.append("C");
+      end = 'C';
       break;
     }
     case BLOCK_D:
     {
-      printq.append("D");
+      end = 'D';
       break;
     }
     default:
       break;
   }
-  printf("%s\n", printq.c_str());
+  printf("Auto luotu %i, reitti %c->%c\n", car_id, start, end);
 }
 
 Car::~Car()

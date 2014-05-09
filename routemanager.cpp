@@ -51,6 +51,7 @@ void RouteManager::ConstructRoutes()
         routes.at(i).push_back(BLOCK_TRAFFICL);
         AddRoads( routes.at(i), 7);
         routes.at(i).push_back(BLOCK_C);
+	break;
       }
       case ROUTE_A_D:
       {
@@ -61,6 +62,7 @@ void RouteManager::ConstructRoutes()
         routes.at(i).push_back(BLOCK_L);
         routes.at(i).push_back(BLOCK_FERRY);
         routes.at(i).push_back(BLOCK_D);
+	break;
       }
       case ROUTE_B_C:
       {
@@ -69,6 +71,7 @@ void RouteManager::ConstructRoutes()
         routes.at(i).push_back(BLOCK_TRAFFICL);
         AddRoads( routes.at(i), 7);
         routes.at(i).push_back(BLOCK_C);
+	break;
       }
       case ROUTE_B_D:
       {
@@ -79,21 +82,8 @@ void RouteManager::ConstructRoutes()
         routes.at(i).push_back(BLOCK_L);
         routes.at(i).push_back(BLOCK_FERRY);
         routes.at(i).push_back(BLOCK_D);
+	break;
       }
-#if 0
-      case R_ROUTE1:
-      {
-      }
-      case R_ROUTE2:
-      {
-      }
-      case R_ROUTE3:
-      {
-      }
-      case R_ROUTE4:
-      {
-      }
-#endif
       default:
       {
         break;
