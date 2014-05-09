@@ -15,7 +15,7 @@
 class Car : public SyncThread
 {
 	public:
-                Car(unsigned int id, Ferry* ferry_h, TrafficLight* traffic_light_h);
+                Car(unsigned int id, Ferry* ferry_h, TrafficLight* traffic_light_h, RouteManager* routemanager_h);
 		virtual 	  ~Car();
 	private:
 		void 				Execute();
@@ -25,6 +25,7 @@ class Car : public SyncThread
     unsigned int car_id;
     Ferry* ferry;
     TrafficLight* traffic_light;
+    RouteManager* routemanager;
     
     unsigned int pos_route;
     unsigned int pos_block;

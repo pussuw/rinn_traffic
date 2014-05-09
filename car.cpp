@@ -9,11 +9,13 @@
 #include <string>
 #include <stdio.h>
 
-Car::Car(unsigned int id, Ferry* ferry_h, TrafficLight* traffic_light_h)
-         : car_id(id), ferry(ferry_h), traffic_light(traffic_light_h), route()
+Car::Car(unsigned int id, Ferry* ferry_h, TrafficLight* traffic_light_h, 
+         RouteManager* routemanager_h)
+         : car_id(id), ferry(ferry_h), 
+           traffic_light(traffic_light_h),
+           routemanager(routemanager_h), route()
 {
-  RouteManager router;
-  router.GetRoute( &route );
+  routemanager->GetRoute( &route );
   pos_route = 0;
   pos_block = 0;
   

@@ -17,6 +17,7 @@ pussuw, r00pe, xzr
 #include "syncthread.h"
 #include "genericsignal.h"
 #include "trafficlight.h"
+#include "routemanager.h"
 #include "ferry.h"
 #include "car.h"
 
@@ -32,9 +33,9 @@ pthread_mutex_t printerlock = PTHREAD_MUTEX_INITIALIZER;
 
 void printer(std::string printstr)
 {
-pthread_mutex_lock(&printerlock);
-fprintf(stderr, printstr.c_str());
-pthread_mutex_lock(&printerlock);
+  pthread_mutex_lock(&printerlock);
+  fprintf(stderr, printstr.c_str());
+  pthread_mutex_lock(&printerlock);
 
 }
 
@@ -53,7 +54,8 @@ void server_loop()
   Ferry ferry1;
   ferry1.Start();
   TrafficLight traffic_light;
-  
+  RouteManager routemanager;
+
   unsigned int test1 = 5;
   unsigned int car_id = 0;
   
@@ -75,7 +77,7 @@ void server_loop()
     {
       if(g_cars_created < LIMIT_CARS_PASSED)
       {
-          tmp = new Car(car_id, &ferry1, &traffic_light);
+          tmp = new Car(car_id, &ferry1, &traffic_light, &routemanager);
           tmp->Start();
           children.push_back(tmp);
           tmp = 0;
