@@ -23,7 +23,7 @@ pussuw, r00pe, xzr
 #include "randomizer.h"
 
 //delay between every tick in milliseconds
-const unsigned int TICK_DELAY = 100000;
+const unsigned int TICK_DELAY = 100;
 const unsigned int LIMIT_CARS_PASSED = 100;
 const unsigned int MAX_SPAWN_DELAY = 20;
 
@@ -61,7 +61,7 @@ void server_loop()
 
   unsigned int spawn_delay = randomizer.Randomize(MAX_SPAWN_DELAY);
   unsigned int car_id = 0;
-  
+
   Car* tmp;
   do 
   {

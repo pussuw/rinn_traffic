@@ -33,11 +33,16 @@ class Ferry : public SyncThread
 		void 				Execute();
 		void 				LoadFerry();
 		void 				UnloadFerry();
-		GenSignal			vehicle_ready;
+		GenSignal			vehicle_unloaded;
+		GenSignal                       vehicle_loaded;
 	protected:
 		static const int	lake_cross_ticks = LAKE_CROSS_TICKS;
+		int                             cars_in_queue;
+		int                             cars_in_ferry;
 		sem_t 				ferry_load; /* Cars waiting at L */
+		sem_t                           ferry_onboard;
 		sem_t				ferry_unload; /* Cars to be unloaded at D */
+		pthread_mutex_t                 ferry_queue_mutex;
 };
 
 #endif /* FERRY_H_ */
