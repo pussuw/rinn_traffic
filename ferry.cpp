@@ -46,7 +46,6 @@ void Ferry::UseFerry(int customer_id)
     /* 3: Wait for ferry to arrive at other end and unload */
     sem_wait(&this->ferry_unload);
     /* 4: Inform ferry that we have unloaded */
-    mycerr("Auto %d, poistuu lautalta\n", customer_id);
     vehicle_unloaded.Signal();
     /* 5: Return from this function -> ferry travel complete !*/
 }
