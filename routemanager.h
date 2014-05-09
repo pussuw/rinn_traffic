@@ -42,7 +42,7 @@ typedef enum
 class RouteManager
 {
   public:
-    RouteManager();
+    RouteManager(Randomizer* randomizer_h);
     virtual ~RouteManager();
     
     //fills a vector with routeblocks for a car to use
@@ -51,6 +51,7 @@ class RouteManager
     void ConstructRoutes();
     void AddRoads(std::vector<ERouteBlock>& route, unsigned int amount);
     std::vector<std::vector<ERouteBlock> > routes;
+    Randomizer* randomizer;
     pthread_mutex_t	signal_guard;
 };
 

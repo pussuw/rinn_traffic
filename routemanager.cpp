@@ -15,23 +15,22 @@
 #include "random.h"
 #endif
  
-RouteManager::RouteManager()
+RouteManager::RouteManager(Randomizer* randomizer_h): routes(), randomizer(randomizer_h)
 {
-	pthread_mutex_init(&this->signal_guard, NULL);
+  pthread_mutex_init(&this->signal_guard, NULL);
   ConstructRoutes();
 }
 
 RouteManager::~RouteManager()
 {
-	pthread_mutex_destroy(&this->signal_guard);
+  pthread_mutex_destroy(&this->signal_guard);
 }
 
 void RouteManager::GetRoute(std::vector<ERouteBlock>* route)
 {
   pthread_mutex_lock(&this->signal_guard);
-  Randomizer rando;
   
-  *route = routes.at(rando.Randomize((unsigned int)ROUTE_B_D));
+  *route = routes.at(randomizer->Randomize((unsigned int)ROUTE_B_D));
   
   pthread_mutex_unlock(&this->signal_guard);
 }

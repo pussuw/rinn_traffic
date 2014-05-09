@@ -20,11 +20,13 @@ pussuw, r00pe, xzr
 #include "routemanager.h"
 #include "ferry.h"
 #include "car.h"
-
+#include "randomizer.h"
 
 //delay between every tick in milliseconds
 const unsigned int TICK_DELAY = 100000;
 const unsigned int LIMIT_CARS_PASSED = 100;
+const unsigned int MAX_SPAWN_DELAY = 20;
+
 volatile unsigned int g_cars_passed = 0;
 volatile unsigned int g_cars_created = 0;
 
@@ -54,9 +56,10 @@ void server_loop()
   Ferry ferry1;
   ferry1.Start();
   TrafficLight traffic_light;
-  RouteManager routemanager;
+  Randomizer randomizer;
+  RouteManager routemanager(&randomizer);
 
-  unsigned int test1 = 5;
+  unsigned int spawn_delay = randomizer.Randomize(MAX_SPAWN_DELAY);
   unsigned int car_id = 0;
   
   Car* tmp;
@@ -72,8 +75,8 @@ void server_loop()
       //spawn a car, give it a route, add it to children
     }
 */
-    test1--;
-    if( test1 == 0 )
+    spawn_delay--;
+    if( spawn_delay == 0 )
     {
       if(g_cars_created < LIMIT_CARS_PASSED)
       {
@@ -81,7 +84,7 @@ void server_loop()
           tmp->Start();
           children.push_back(tmp);
           tmp = 0;
-          test1 = 5;
+          spawn_delay = randomizer.Randomize(MAX_SPAWN_DELAY);
           ++car_id;
           g_cars_created++;
       }
